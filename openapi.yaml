@@ -1,6 +1,3 @@
-# Odoo Expense API - Swagger Documentation
-
-```yaml
 openapi: 3.0.3
 info:
   title: Odoo Expense API
@@ -23,9 +20,17 @@ info:
     
   version: 1.0.0
   contact:
-    name: Kostya Mileant
-    email: m
+    name: API Support
+    email: support@example.com
 
+servers:
+  - url: https://your-odoo-instance.com
+    description: Production server
+  - url: https://staging.your-odoo-instance.com
+    description: Staging server
+
+security:
+  - bearerAuth: []
 
 paths:
   # EXPENSE ENDPOINTS
@@ -1486,83 +1491,3 @@ tags:
     description: Expense report management
   - name: Public
     description: Public endpoints that don't require authentication
-```
-
-## Usage Examples
-
-### Authentication
-All authenticated endpoints require a Bearer token:
-```bash
-curl -H "Authorization: Bearer your_api_token_here" \
-     https://your-odoo-instance.com/api/v1/expenses
-```
-
-### Create an Expense
-```bash
-curl -X POST \
-  -H "Authorization: Bearer your_api_token_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Business lunch",
-    "total_amount_currency": 45.50,
-    "product_id": 123,
-    "date": "2025-08-20",
-    "payment_mode": "own_account",
-    "description": "Meeting with potential client"
-  }' \
-  https://your-odoo-instance.com/api/v1/expenses
-```
-
-### Upload Receipt
-```bash
-curl -X POST \
-  -H "Authorization: Bearer your_api_token_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "file_data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...",
-    "file_name": "receipt_lunch.jpg"
-  }' \
-  https://your-odoo-instance.com/api/v1/expenses/123/attachments
-```
-
-### Get Expenses with Filters
-```bash
-curl -H "Authorization: Bearer your_api_token_here" \
-     "https://your-odoo-instance.com/api/v1/expenses?state=draft&date_from=2025-08-01&limit=10"
-```
-
-### Create Report from Multiple Expenses
-```bash
-curl -X POST \
-  -H "Authorization: Bearer your_api_token_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "August 2025 Business Expenses",
-    "expense_ids": [123, 124, 125]
-  }' \
-  https://your-odoo-instance.com/api/v1/expense/create-reports
-```
-
-## Error Handling
-
-The API uses standard HTTP status codes and returns JSON error responses:
-
-- **400 Bad Request**: Validation errors, missing required fields
-- **401 Unauthorized**: Invalid or missing API token
-- **403 Forbidden**: Access denied, insufficient permissions
-- **404 Not Found**: Resource not found
-- **500 Internal Server Error**: Server-side errors
-
-All error responses include an `error` field with a descriptive message.
-
-## Rate Limiting
-
-Consider implementing rate limiting for production use to prevent abuse.
-
-## Security Notes
-
-1. Always use HTTPS in production
-2. Keep API tokens secure and rotate them regularly
-3. Implement proper token validation and expiration
-4. Log API access for security monitoring
-5. Validate file uploads to prevent security issues
