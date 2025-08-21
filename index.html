@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Expense API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css" />
+    <link rel="icon" type="image/png" href="https://petstore.swagger.io/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://petstore.swagger.io/favicon-16x16.png" sizes="16x16" />
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            margin: 0;
+            background: #fafafa;
+            font-family: "Titillium Web", sans-serif;
+        }
+        .swagger-ui .topbar {
+            display: none;
+        }
+        .swagger-ui .info {
+            margin: 50px 0;
+        }
+        .swagger-ui .info .title {
+            font-size: 36px;
+            color: #3b4151;
+            font-family: "Titillium Web", sans-serif;
+            font-weight: bold;
+        }
+        .swagger-ui .info .description {
+            font-size: 14px;
+            margin: 20px 0;
+        }
+        /* Кастомизация для лучшего вида */
+        .swagger-ui .scheme-container {
+            background: #fff;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);
+        }
+        /* Скрыть базовый URL если не нужен */
+        .swagger-ui .servers {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-standalone-preset.js"></script>
+    <script>
+        window.onload = function() {
+            // Конфигурация Swagger UI
+            const ui = SwaggerUIBundle({
+                url: './openapi.yaml',  // Путь к YAML файлу
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout",
+                
+                // Настройки функциональности
+                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+                tryItOutEnabled: true,
+                requestInterceptor: function(request) {
+                    // Здесь можно модифицировать запросы
+                    console.log('Request:', request);
+                    return request;
+                },
+                responseInterceptor: function(response) {
+                    // Здесь можно модифицировать ответы
+                    console.log('Response:', response);
+                    return response;
+                },
+                
+                // Настройки отображения
+                docExpansion: "list",  // "list", "full", "none"
+                filter: true,  // Включить поиск
+                showExtensions: true,
+                showCommonExtensions: true,
+                defaultModelsExpandDepth: 1,
+                defaultModelExpandDepth: 1,
+                defaultModelRendering: "example",  // "example" или "model"
+                
+                // Валидация
+                validatorUrl: null,  // Отключить онлайн валидацию
+                
+                // OAuth настройки (если понадобятся)
+                oauth2RedirectUrl: window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '') + '/oauth2-redirect.html'
+            });
+            
+            // Дополнительная настройка после загрузки
+            window.ui = ui;
+        };
+    </script>
+</body>
+</html>
